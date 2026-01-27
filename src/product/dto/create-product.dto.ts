@@ -1,3 +1,5 @@
+import { CreateVariantDto } from './product-variant.dto';
+
 export class CreateProductDto {
   name!: string;
   description!: string;
@@ -6,4 +8,6 @@ export class CreateProductDto {
   isFeatured?: boolean;
   isBest?: boolean;
   isActive?: boolean;
+
+  variants?: CreateVariantDto[];
 }

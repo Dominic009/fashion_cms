@@ -10,9 +10,28 @@ import { UpdateProductDto } from './dto/update-product.dto';
 @Injectable()
 export class ProductService {
   constructor(private prisma: PrismaService) {}
-
   async create(dto: CreateProductDto) {
-    return await this.prisma.product.create({ data: dto });
+    return await this.prisma.product.create({
+      data: {
+        name: dto.name,
+        description: dto.description,
+        price: dto.price,
+        categoryId: dto.categoryId,
+        isFeatured: dto.isFeatured ?? false,
+        isBest: dto.isBest ?? false,
+        isActive: dto.isActive ?? true,
+
+        variants: dto.variants
+          ? {
+              create: dto.variants,
+            }
+          : undefined,
+      },
+      include: {
+        category: true,
+        variants: true,
+      },
+    });
   }
 
   async findAll() {
@@ -31,10 +50,25 @@ export class ProductService {
   }
 
   async update(id: number, dto: UpdateProductDto) {
-    await this.findOne(id); // check if exists
+    await this.findOne(id);
+
+    const { categoryId, ...rest } = dto;
+
     return this.prisma.product.update({
       where: { id },
-      data: dto,
+      data: {
+        ...rest,
+
+        ...(categoryId && {
+          category: {
+            connect: { id: categoryId },
+          },
+        }),
+      },
+      include: {
+        category: true,
+        variants: true,
+      },
     });
   }
 

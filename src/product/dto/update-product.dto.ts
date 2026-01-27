@@ -1,5 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateProductDto } from './create-product.dto';
+export class UpdateProductDto {
+  name?: string;
+  description?: string;
+  price?: number;
+  isFeatured?: boolean;
+  isBest?: boolean;
+  isActive?: boolean;
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
+  categoryId?: number; // keep this for UI simplicity
+}
