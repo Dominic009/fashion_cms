@@ -8,6 +8,10 @@ prisma version - 6.19.2
 
 APIs:
 @POST <login> /auth/admin/login
+{
+  "email": "admin@system.com",
+  "password": "admin123"
+}
 
 Product:
 @POST <product> /products 
